@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login</title>
+    <link rel="stylesheet" href="src/css/login.css" />
+</head>
+
+<body>
+    <div class="container">
+        <h2>Kirish</h2>
+        <form id="login-form">
+            <input type="email" id="email" placeholder="Elektron pochta" required />
+            <input type="password" id="password" placeholder="Parol" required />
+            <button type="submit">Kirish</button>
+        </form>
+        <div class="switch">
+            <span>Hisobingiz yo‘qmi? <a href="register.html">Ro‘yxatdan o‘tish</a></span>
+        </div>
+        <div class="error" id="error-message"></div>
+    </div>
+    <script type="module" src="src/js/auth.js"></script>
+</body>
+
+</html>

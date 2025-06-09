@@ -12,6 +12,4 @@ export class UpdateUserDto {
     @IsString()
     password: string
 
-    @ApiProperty({ type: 'string', enum: Gender })
-    gender: Gender
 }

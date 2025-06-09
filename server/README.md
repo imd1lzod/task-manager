@@ -48,7 +48,7 @@ Ushbu loyiha foydalanuvchilarga shaxsiy vazifalarini (tasklarini) boshqarishda y
  password String Hashed parol  
  age Number Yoshi  
  gender String Jinsi (`male`, `female`, `other`)
-role String `user` yoki `admin`  
+ role String `user` yoki `admin`  
  isActive Boolean Faollik holati  
  createdAt Date Yaratilgan vaqt  
  updatedAt Date Yangilangan vaqt

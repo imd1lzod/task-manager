@@ -5,7 +5,7 @@ import { UpdateUserDto } from "./dtos/update-user.dto";
 
 @Controller('users')
 export class UserController {
-    constructor(private userService: UserService) {}
+    constructor(private userService: UserService) { }
 
     @Post()
     async create(@Body() payload: CreateUserDto) {
@@ -23,7 +23,7 @@ export class UserController {
     }
 
     @Put(':id')
-    async update(@Param('id', ParseIntPipe) id: number, body: UpdateUserDto) {
+    async update(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateUserDto) {
         return await this.userService.update(id, body)
     }
 

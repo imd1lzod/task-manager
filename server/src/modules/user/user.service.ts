@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.client";
 import { CreateUserDto } from "./dtos/create-user.dto";
 import { UpdateUserDto } from "./dtos/update-user.dto";
@@ -9,9 +9,9 @@ export class UserService {
 
     async create(payload: CreateUserDto) {
 
-        await this.checkExistingUser(payload.email)
+        const u = await this.checkExistingUser(payload.email)
 
-        const user = await this.prisma.user.create({data: payload })
+        const user = await this.prisma.user.create({ data: payload })
         return {
             message: 'Foydalanuvchi muvaffaqiyatli yaratildi',
             data: user
@@ -19,7 +19,7 @@ export class UserService {
     }
 
     async getAllUsers() {
-        const users = await this.prisma.user.findMany()
+        const users = await this.prisma.user.findMany({include: {Task: true}})
 
         return {
             message: "Foydalanuvchilar muvaffaqiyatli olindi",
@@ -29,7 +29,7 @@ export class UserService {
 
     async update(id: number, payload: UpdateUserDto) {
         await this.checkNotExistingUser(id)
-        const updatedUser = await this.prisma.user.update({data: payload, where: {id}})
+        const updatedUser = await this.prisma.user.update({ data: payload, where: { id } })
 
         return {
             message: 'Foydalanuvchi muvaffaqiyatli yangilandi',
@@ -39,7 +39,7 @@ export class UserService {
 
     async getOneUser(id: number) {
         await this.checkNotExistingUser(id)
-        const user = await this.prisma.user.findUnique({where: {id}})
+        const user = await this.prisma.user.findUnique({ where: { id }, include: {Task: true} })
 
         return {
             message: 'Foydalanuvchi muvaffaqiyatli olindi',
@@ -49,7 +49,7 @@ export class UserService {
 
     async delete(id: number) {
         await this.checkNotExistingUser(id)
-        const user = await this.prisma.user.findUnique({where: {id}})
+        const user = await this.prisma.user.findUnique({ where: { id } })
 
         if (!user) {
             return {
@@ -57,7 +57,7 @@ export class UserService {
             }
         }
 
-        await this.prisma.user.delete({where: {id}})
+        await this.prisma.user.delete({ where: { id } })
 
         return {
             message: 'Foydalanuvchi muvaffaqiyatli tozalandi'
@@ -65,12 +65,12 @@ export class UserService {
     }
 
     async checkExistingUser(email: string) {
-        const user = await this.prisma.user.findUnique({where: {email}})
+        const user = await this.prisma.user.findUnique({ where: { email } })
 
         if (user) {
-            return {
-                message: 'Bunday emaildagi foydalanuvchi allaqachon mavjud!\nBoshqa emaildan urinib ko`ring'
-            }
+            throw new BadRequestException(
+                'Bunday emaildagi foydalanuvchi allaqachon mavjud! | Boshqa emaildan urinib ko`ring'
+            )
         }
     }
 
@@ -78,9 +78,9 @@ export class UserService {
         const user = await this.prisma.user.findUnique({ where: { id } })
 
         if (!user) {
-            return {
-                message: 'Bunday emaildagi foydalanuvchi mavjud emas!\nBoshqa emaildan urinib ko`ring'
-            }
+            throw new BadRequestException(
+                'Bunday emaildagi foydalanuvchi mavjud emas!\nBoshqa emaildan urinib ko`ring'
+            )
         }
     }
 }
