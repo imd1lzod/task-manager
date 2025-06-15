@@ -10,35 +10,35 @@
 
 <body>
     <div class="app-container">
-        <!-- Chap tarafdagi meny -->
         <aside class="sidebar">
             <div class="logo">TaskManager</div>
             <nav class="menu">
                 <ul>
-                    <li class="menu-item active"><span>All tasks</span> <span class="task-count">0</span></li>
-                    <li class="menu-item"><span>Today</span> <span class="task-count">0</span></li>
+                    <li class="menu-item active" data-filter="all"><span>All</span> <span class="task-count">0</span>
+                    </li>
+                    <li class="menu-item" data-filter="today"><span>Today</span> <span class="task-count">0</span></li>
+                    <li class="menu-item" data-filter="upcoming"><span>Upcoming</span> <span class="task-count">0</span>
+                    </li>
+                    <li class="menu-item" data-filter="done"><span>Completed</span> <span class="task-count">0</span>
+                    </li>
+                    <li class="menu-item" data-filter="cancelled"><span>Cancelled</span> <span
+                            class="task-count">0</span></li>
                     <li class="menu-item add-task"><span>+ Add Task</span></li>
                 </ul>
             </nav>
         </aside>
-
-        <!-- Asosiy kontent -->
         <main class="main-content">
             <header class="header">
+                <h1 class="main-title">Tasks</h1>
                 <div class="header-actions">
-                    <button class="action-btn">Export</button>
-                    <button class="action-btn">List view</button>
-                    <button class="action-btn">Filter</button>
+                    <input type="text" id="search-tasks" placeholder="Search tasks..." class="search-input" />
                     <button class="action-btn sign-in" id="sign-in-btn">Sign In</button>
                 </div>
             </header>
-            <div class="content-placeholder">
-                <h1>Your work. Organized.</h1>
-                <p>Create free To-Do lists</p>
-                <p>Instantly create and organize tasks directly in your browser.</p>
-                <p>No account required.</p>
-                <div class="placeholder-icon"></div>
-            </div>
+            <section class="filters">
+                <!-- Future: filter buttons or dropdowns -->
+            </section>
+            <ul id="task-list" class="task-list"></ul>
         </main>
     </div>
     <div id="add-task-modal" class="modal"
