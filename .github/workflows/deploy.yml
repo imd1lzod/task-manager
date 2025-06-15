@@ -32,8 +32,10 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_KEY }}
-          source: "."
-          target: "~/projects/task-manager/server"
+          source: "./server"
+          target: "~/projects/task-manager"
+          overwrite: true
+          rm: true
 
       - name: SSH & Restart PM2
         uses: appleboy/ssh-action@v1.0.0
@@ -42,5 +44,6 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_KEY }}
           script: |
+            export PATH=/usr/local/node-23/bin:$PATH
             cd ~/projects/task-manager/server
             pm2 restart all || pm2 start dist/main.js --name task-manager
