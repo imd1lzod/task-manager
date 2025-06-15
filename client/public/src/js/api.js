@@ -1,16 +1,17 @@
 // src/js/api.js
-const API_URL = 'http://localhost:4000';
+const API_URL = 'http://localhost:4000/api';
 
 export async function getTasks() {
     const token = localStorage.getItem('token');
     const res = await fetch(`${API_URL}/tasks`, {
         headers: token ? { 'Authorization': `Bearer ${token}` } : {}
     });
-    if (!res.ok) throw new Error('Failed to fetch tasks');
-    return res.json();
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.message || 'Failed to fetch tasks');
+    return data
 }
 
-export async function createTask(title) {
+export async function createTask(task) {
     const token = localStorage.getItem('token');
     const res = await fetch(`${API_URL}/tasks`, {
         method: 'POST',
@@ -18,10 +19,11 @@ export async function createTask(title) {
             'Content-Type': 'application/json',
             ...(token ? { 'Authorization': `Bearer ${token}` } : {})
         },
-        body: JSON.stringify({ title })
+        body: JSON.stringify(task)
     });
-    if (!res.ok) throw new Error('Failed to create task');
-    return res.json();
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.message || 'Failed to create tasks');
+    return data
 }
 
 export async function deleteTask(id) {
@@ -30,7 +32,8 @@ export async function deleteTask(id) {
         method: 'DELETE',
         headers: token ? { 'Authorization': `Bearer ${token}` } : {}
     });
-    if (!res.ok) throw new Error('Failed to delete task');
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.message || 'Failed to delete tasks')
 }
 
 export async function login(email, password) {
@@ -39,8 +42,9 @@ export async function login(email, password) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
     });
-    if (!res.ok) throw new Error('Login failed');
-    return res.json();
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.message || 'Llogin failed');
+    return data
 }
 
 export async function register(name, email, password) {
@@ -49,6 +53,7 @@ export async function register(name, email, password) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password })
     });
-    if (!res.ok) throw new Error('Registration failed');
-    return res.json();
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.message || 'Registration failed');
+    return data
 }

@@ -3,14 +3,15 @@ export function renderTasks(tasks, container, onDelete) {
     container.innerHTML = '';
     for (const task of tasks) {
         const li = document.createElement('li');
-        li.textContent = task.title;
         li.classList.add('task-item');
-
+        li.innerHTML = `<strong>${task.title}</strong><br>
+            <span>${task.description || ''}</span><br>
+            <span>Status: ${task.status}</span><br>
+            <span>Deadline: ${task.deadline ? new Date(task.deadline).toLocaleDateString() : ''}</span>`;
         const delBtn = document.createElement('button');
         delBtn.textContent = '×';
         delBtn.classList.add('delete-btn');
         delBtn.onclick = () => onDelete(task.id);
-
         li.appendChild(delBtn);
         container.appendChild(li);
     }
