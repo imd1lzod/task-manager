@@ -25,13 +25,22 @@ export class TaskService {
         }
     }
 
-    async getAll() {
-        const tasks = await this.prisma.task.findMany()
+    async getAll(status?: string, search?: string) {
+        const tasks = await this.prisma.task.findMany({
+            where: {
+                AND: [
+                    status ? { status } : {},
+                    search ? { title: { contains: search, mode: 'insensitive' } } : {}
+                ]
+            }
+        });
 
         return {
+            count: tasks.length,
             data: tasks
-        }
+        };
     }
+
 
     async getOneTask(id: number) {
         const task = await this.prisma.task.findUnique({ where: { id: id } })

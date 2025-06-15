@@ -41,7 +41,8 @@ export class AuthService {
     }
   }
 
-  async login(body: LoginAuthDto, res: Response) {
+  async login(body: LoginAuthDto,  res: Response) {
+
     await this.checkNotExistingUser(body.email)
 
     const user: any = await this.prisma.user.findUnique({ where: { email: body.email } })
@@ -49,7 +50,7 @@ export class AuthService {
     const passedPassword = bcrypt.compareSync(body.password, user.password)
 
     if (!passedPassword) {
-      throw new BadRequestException("Parol xato kiritildi!")
+      return res.send('Parol xato kiritildi!')
     }
 
     const payload = { id: user.id, role: user.role }

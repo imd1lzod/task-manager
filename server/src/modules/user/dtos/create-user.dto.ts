@@ -25,6 +25,9 @@ export class CreateUserDto {
     @IsEnum(Role)
     role?: string
 
+    @ApiProperty({type: 'string', format: 'binary', required: false})
+    image: Express.Multer.File
+
     @ApiProperty({ default: true })
     isActive?: boolean
 }

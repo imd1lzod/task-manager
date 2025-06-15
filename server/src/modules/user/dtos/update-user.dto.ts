@@ -12,4 +12,7 @@ export class UpdateUserDto {
     @IsString()
     password: string
 
+    @ApiProperty({ type: 'string', format: 'binary', required: false })
+    image: Express.Multer.File
+
 }

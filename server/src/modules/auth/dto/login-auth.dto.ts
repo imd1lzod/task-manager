@@ -2,7 +2,7 @@ import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { RegisterAuthDto } from './register-auth.dto';
 import { IsEmail, IsString } from 'class-validator';
 
-export class LoginAuthDto extends PartialType(RegisterAuthDto) { 
+export class LoginAuthDto { 
     @ApiProperty({ type: 'string', example: 'elbek@gmail.com' })
     @IsEmail()
     @IsString()

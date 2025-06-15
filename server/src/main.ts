@@ -1,14 +1,24 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { ParseIntPipe, ValidationPipe } from '@nestjs/common';
+import { ParseIntPipe, ValidationPipe, VersioningType } from '@nestjs/common';
 import * as cookieParser from "cookie-parser"
 import { ErrorHandler } from './filters/validation.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.enableCors()
+  app.enableCors({
+    origin: ['http://localhost:3000'],
+    credentials: true
+  })
+
+  app.enableVersioning({
+    type: VersioningType.URI,
+    prefix: 'v1'
+  })
+
+  app.setGlobalPrefix('api')
 
   app.useGlobalPipes(new ValidationPipe({
     transform: true,
@@ -22,7 +32,7 @@ async function bootstrap() {
     .setTitle('User')
     .setDescription('the user Api')
     .setVersion("0.1")
-    .addBearerAuth()
+    // .addBearerAuth()
     .build()
 
   const documentFactory = () => SwaggerModule.createDocument(app, config)
