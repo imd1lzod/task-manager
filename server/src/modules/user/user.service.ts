@@ -97,7 +97,7 @@ export class UserService implements OnModuleInit {
 
         if (!user) {
             throw new BadRequestException(
-                'Bunday emaildagi foydalanuvchi mavjud emas!\nBoshqa emaildan urinib ko`ring'
+                'Bunday emaildagi foydalanuvchi mavjud emas! | Boshqa emaildan urinib ko`ring'
             )
         }
     }
